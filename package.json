@@ -1,0 +1,26 @@
+{
+  "name": "homeServer",
+  "version": "1.0.0",
+  "description": "Simple web server",
+  "main": "index.js",
+  "dependencies": {
+    "formidable": "^1.0.17",
+    "get-pixels": "^3.2.3",
+    "save-pixels": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MMaurel/homeServer.git"
+  },
+  "author": "MMaurel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MMaurel/homeServer/issues"
+  },
+  "homepage": "https://github.com/MMaurel/homeServer"
+}

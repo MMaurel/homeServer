@@ -1,27 +1,23 @@
 var querystring = require('querystring');
 var fs = require('fs');
 var formidable = require('formidable');
+var getPixels = require('get-pixels');
+var savePixels = require('save-pixels');
 
 function start(response) {
   console.log('Start manager is called');
 
-  var body = '<html>'+
-    '<head>'+
-    '<meta http-equiv="Content-Type" '+
-    'content="text/html; charset=UTF-8" />'+
-    '</head>'+
-    '<body>'+
-    '<form action="/upload" enctype="multipart/form-data" '+
-    'method="post">'+
-    '<input type="file" name="upload" multiple="multiple">'+
-    '<input type="submit" value="Upload file" />'+
-    '</form>'+
-    '</body>'+
-    '</html>';
-
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write(body);
-    response.end();
+  var body = fs.readFile('./form.html', function (error, html) {
+    if (error) {
+      response.writeHead(500, {'Content-Type': 'text/plain'});
+      response.write(error + '\n');
+      response.end();
+    } else {
+      response.writeHead(200, {'Content-Type': 'text/html'});
+      response.write(html);
+      response.end();
+    }
+  });
 }
 
 function upload(response, request) {
@@ -34,12 +30,32 @@ function upload(response, request) {
 
     /* En cas d'erreur sous Windows :
        tentative d'écrasement d'un fichier existant */
-    fs.rename(files.upload.path, '/tmp/test.png', function(err) {
-      if (err) {
+    fs.rename(files.upload.path, '/tmp/test.png', function(error) {
+      if (error) {
         fs.unlink('/tmp/test.png');
         fs.rename(files.upload.path, '/tmp/test.png');
       }
     });
+
+    getPixels('/tmp/test.png', function(error, pixels) {
+      if (error) {
+        console.log('Bad image path');
+        return;
+      }
+      var res = '';
+
+      console.log('=========================================');
+      
+      for (var i = 0; i < 200; i++) {
+        res += '[' + pixels.data[i] + ']';
+      }
+
+      console.log(res);
+      console.log('=========================================');
+      console.log(pixels.shape.slice());
+      console.log('=========================================');
+    });
+
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.write('Image received :<br/>');
     response.write('<img src="/show" />');
