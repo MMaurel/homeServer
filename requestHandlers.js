@@ -1,9 +1,9 @@
-var querystring = require('querystring'),
-    fs = require('fs'),
-    formidable = require('formidable');
+var querystring = require('querystring');
+var fs = require('fs');
+var formidable = require('formidable');
 
 function start(response) {
-  console.log('Le gestionnaire "start" est appelé.');
+  console.log('Start manager is called');
 
   var body = '<html>'+
     '<head>'+
@@ -14,7 +14,7 @@ function start(response) {
     '<form action="/upload" enctype="multipart/form-data" '+
     'method="post">'+
     '<input type="file" name="upload" multiple="multiple">'+
-    '<input type="submit" value="Transférer le fichier" />'+
+    '<input type="submit" value="Upload file" />'+
     '</form>'+
     '</body>'+
     '</html>';
@@ -25,12 +25,12 @@ function start(response) {
 }
 
 function upload(response, request) {
-  console.log('Le gestionnaire "upload" est appelé.');
+  console.log('Upload manager is called');
 
   var form = new formidable.IncomingForm();
-  console.log('Récupération des éléments reçus');
+  console.log('Processing received elements ...');
   form.parse(request, function(error, fields, files) {
-    console.log('Traitement terminé');
+    console.log('Processing completed !');
 
     /* En cas d'erreur sous Windows :
        tentative d'écrasement d'un fichier existant */
@@ -41,16 +41,16 @@ function upload(response, request) {
       }
     });
     response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write('Image reçue :<br/>');
+    response.write('Image received :<br/>');
     response.write('<img src="/show" />');
     response.end();
   });
 }
 
 function show(response) {
-  console.log('Le gestionnaire "show" est appelé.');
+  console.log('Show manager is called');
   fs.readFile('/tmp/test.png', 'binary', function(error, file) {
-    if(error) {
+    if (error) {
       response.writeHead(500, {'Content-Type': 'text/plain'});
       response.write(error + '\n');
       response.end();
