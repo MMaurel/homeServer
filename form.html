@@ -3,9 +3,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <form action="/upload" enctype="multipart/form-data" method="post">
+        <form action="/uploadRed" enctype="multipart/form-data" method="post">
             <input type="file" name="upload" multiple="multiple">
-            <input type="submit" value="Upload file" />
+            <input type="submit" value="Red" />
+        </form>
+
+        <form action="/uploadGreen" enctype="multipart/form-data" method="post">
+            <input type="file" name="upload" multiple="multiple">
+            <input type="submit" value="Green" />
+        </form>
+
+        <form action="/uploadBlue" enctype="multipart/form-data" method="post">
+            <input type="file" name="upload" multiple="multiple">
+            <input type="submit" value="Blue" />
         </form>
     </body>
 </html>
